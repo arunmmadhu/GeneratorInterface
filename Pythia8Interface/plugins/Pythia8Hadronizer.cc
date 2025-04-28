@@ -905,8 +905,14 @@ bool Pythia8Hadronizer::ThreeMuMassFilter( Event &ev){
   
   bool WhetherThreeMuonPosPass(false);
   bool WhetherThreeMuonNegPass(false);
+  bool WhetherThreeMuonPosPassWithOS(false);
+  bool WhetherThreeMuonNegPassWithOS(false);
+  bool WhetherThreeMuonOSHadron(false);//can include muons
+  bool WhetherThreeMuonOSeOrHadron(false);//can include muons
+  bool WhetherThreeMuonOSmuOnly(false);
   bool WhetherTwoMuonandPionPosPass(false);
   bool WhetherTwoMuonandPionNegPass(false);
+  
 
 
   //With just muons
@@ -927,29 +933,40 @@ bool Pythia8Hadronizer::ThreeMuMassFilter( Event &ev){
                    if(massTriplet.pT()>14.5){
                            //std::cout<<" Muon Positive " <<std::endl;
                            WhetherThreeMuonPosPass = true;
-                           //std::cout<<" Particle 1, x: "<< part1.px() <<" , y: "<< part1.py() <<" , z: "<< part1.pz() <<std::endl;
-                           //std::cout<<" Particle 2, x: "<< part2.px() <<" , y: "<< part2.py() <<" , z: "<< part2.pz() <<std::endl;
-                           //std::cout<<" Particle 3, x: "<< part3.px() <<" , y: "<< part3.py() <<" , z: "<< part3.pz() <<std::endl;
+                           //std::cout<<" Particle 1, x: "<< part1.px() <<" , y: "<< part1.py() <<" , z: "<< part1.pz() <<" , pT: "<< part1.pT() <<std::endl;
+                           //std::cout<<" Particle 2, x: "<< part2.px() <<" , y: "<< part2.py() <<" , z: "<< part2.pz() <<" , pT: "<< part2.pT() <<std::endl;
+                           //std::cout<<" Particle 3, x: "<< part3.px() <<" , y: "<< part3.py() <<" , z: "<< part3.pz() <<" , pT: "<< part3.pT() <<std::endl;
                            
                            //double dR12 = std::sqrt(std::pow(part1.eta() - part2.eta(), 2) + std::pow(std::fabs(part1.phi() - part2.phi()) > M_PI ? 2 * M_PI - std::fabs(part1.phi() - part2.phi()) : std::fabs(part1.phi() - part2.phi()), 2));
                            //double dR13 = std::sqrt(std::pow(part1.eta() - part3.eta(), 2) + std::pow(std::fabs(part1.phi() - part3.phi()) > M_PI ? 2 * M_PI - std::fabs(part1.phi() - part3.phi()) : std::fabs(part1.phi() - part3.phi()), 2));
                            //double dR32 = std::sqrt(std::pow(part3.eta() - part2.eta(), 2) + std::pow(std::fabs(part3.phi() - part2.phi()) > M_PI ? 2 * M_PI - std::fabs(part3.phi() - part2.phi()) : std::fabs(part3.phi() - part2.phi()), 2));
                            //std::cout<<" dR12: "<< dR12 <<" , dR13: "<< dR13 <<" , dR32: "<< dR32 << " , triplet pT: "<< massTriplet.pT() << " , triplet eta: " << massTriplet.eta() <<std::endl;
                            
-                           /*
+                           
                            if(OppositeSide.size()>0){
                            for(unsigned int iO = 0; iO < OppositeSide.size(); iO++){
                                    if(OppositeSide.at(iO)!=posMuons.at(iP1)&&OppositeSide.at(iO)!=negMuons.at(iN)&&OppositeSide.at(iO)!=posMuons.at(iP2)){
                                            auto oppVect = ev.at(OppositeSide.at(iO)).p();
                                            double dRtoOpp = std::sqrt(std::pow(massTriplet.eta() - oppVect.eta(), 2) + std::pow(std::fabs(massTriplet.phi() - oppVect.phi()) > M_PI ? 2 * M_PI - std::fabs(massTriplet.phi() - oppVect.phi()) : std::fabs(massTriplet.phi() - oppVect.phi()), 2));
-                                           std::cout<<" dR to opposite side: "<< dRtoOpp <<" , inv mass: "<< (massTriplet+oppVect).mCalc() <<" , particleID: "<< ev.at(OppositeSide.at(iO)).id() <<std::endl;
+                                           
                                            if(dRtoOpp>0.5){
-                                                   return true;
+                                                   //std::cout<<" dR to opposite side: "<< dRtoOpp <<" , inv mass: "<< (massTriplet+oppVect).mCalc() <<" , particleID: "<< ev.at(OppositeSide.at(iO)).id() <<std::endl;
+                                                   WhetherThreeMuonPosPassWithOS = true;
+                                                   if(abs(ev.at(OppositeSide.at(iO)).id())==15||abs(ev.at(OppositeSide.at(iO)).id())==11||abs(ev.at(OppositeSide.at(iO)).id())==1||abs(ev.at(OppositeSide.at(iO)).id())==2||abs(ev.at(OppositeSide.at(iO)).id())==3||abs(ev.at(OppositeSide.at(iO)).id())==4||abs(ev.at(OppositeSide.at(iO)).id())==5||abs(ev.at(OppositeSide.at(iO)).id())==21){
+                                                           WhetherThreeMuonOSeOrHadron = true;
+                                                           if(abs(ev.at(OppositeSide.at(iO)).id())==15||abs(ev.at(OppositeSide.at(iO)).id())==1||abs(ev.at(OppositeSide.at(iO)).id())==2||abs(ev.at(OppositeSide.at(iO)).id())==3||abs(ev.at(OppositeSide.at(iO)).id())==4||abs(ev.at(OppositeSide.at(iO)).id())==5||abs(ev.at(OppositeSide.at(iO)).id())==21){
+                                                                   WhetherThreeMuonOSHadron = true;
+                                                           }
+                                                   }
+                                                   else{
+                                                           WhetherThreeMuonOSmuOnly = true;
+                                                   }
+                                                   
                                            }
                                    }
                            }
                            }
-                           */
+                           
                    }
            }
       }
@@ -973,29 +990,39 @@ bool Pythia8Hadronizer::ThreeMuMassFilter( Event &ev){
                            
                            //std::cout<<" Muon Negative " <<std::endl;
                            WhetherThreeMuonNegPass = true;
-                           //std::cout<<" Particle 1, x: "<< part1.px() <<" , y: "<< part1.py() <<" , z: "<< part1.pz() <<std::endl;
-                           //std::cout<<" Particle 2, x: "<< part2.px() <<" , y: "<< part2.py() <<" , z: "<< part2.pz() <<std::endl;
-                           //std::cout<<" Particle 3, x: "<< part3.px() <<" , y: "<< part3.py() <<" , z: "<< part3.pz() <<std::endl;
+                           //std::cout<<" Particle 1, x: "<< part1.px() <<" , y: "<< part1.py() <<" , z: "<< part1.pz() <<" , pT: "<< part1.pT() <<std::endl;
+                           //std::cout<<" Particle 2, x: "<< part2.px() <<" , y: "<< part2.py() <<" , z: "<< part2.pz() <<" , pT: "<< part2.pT() <<std::endl;
+                           //std::cout<<" Particle 3, x: "<< part3.px() <<" , y: "<< part3.py() <<" , z: "<< part3.pz() <<" , pT: "<< part3.pT() <<std::endl;
                            
                            //double dR12 = std::sqrt(std::pow(part1.eta() - part2.eta(), 2) + std::pow(std::fabs(part1.phi() - part2.phi()) > M_PI ? 2 * M_PI - std::fabs(part1.phi() - part2.phi()) : std::fabs(part1.phi() - part2.phi()), 2));
                            //double dR13 = std::sqrt(std::pow(part1.eta() - part3.eta(), 2) + std::pow(std::fabs(part1.phi() - part3.phi()) > M_PI ? 2 * M_PI - std::fabs(part1.phi() - part3.phi()) : std::fabs(part1.phi() - part3.phi()), 2));
                            //double dR32 = std::sqrt(std::pow(part3.eta() - part2.eta(), 2) + std::pow(std::fabs(part3.phi() - part2.phi()) > M_PI ? 2 * M_PI - std::fabs(part3.phi() - part2.phi()) : std::fabs(part3.phi() - part2.phi()), 2));
                            //std::cout<<" dR12: "<< dR12 <<" , dR13: "<< dR13 <<" , dR32: "<< dR32 << " , triplet pT: "<< massTriplet.pT() << " , triplet eta: " << massTriplet.eta() <<std::endl;
                            
-                           /*
+                           
                            if(OppositeSide.size()>0){
                            for(unsigned int iO = 0; iO < OppositeSide.size(); iO++){
                                    if(OppositeSide.at(iO)!=posMuons.at(iP)&&OppositeSide.at(iO)!=negMuons.at(iN1)&&OppositeSide.at(iO)!=negMuons.at(iN2)){
                                            auto oppVect = ev.at(OppositeSide.at(iO)).p();
                                            double dRtoOpp = std::sqrt(std::pow(massTriplet.eta() - oppVect.eta(), 2) + std::pow(std::fabs(massTriplet.phi() - oppVect.phi()) > M_PI ? 2 * M_PI - std::fabs(massTriplet.phi() - oppVect.phi()) : std::fabs(massTriplet.phi() - oppVect.phi()), 2));
-                                           std::cout<<" dR to opposite side: "<< dRtoOpp <<" , inv mass: "<< (massTriplet+oppVect).mCalc() <<" , particleID: "<< ev.at(OppositeSide.at(iO)).id() <<std::endl;
+                                           
                                            if(dRtoOpp>0.5){
-                                                   return true;
+                                                   //std::cout<<" dR to opposite side: "<< dRtoOpp <<" , inv mass: "<< (massTriplet+oppVect).mCalc() <<" , particleID: "<< ev.at(OppositeSide.at(iO)).id() <<std::endl;
+                                                   WhetherThreeMuonNegPassWithOS = true;
+                                                   if(abs(ev.at(OppositeSide.at(iO)).id())==15||abs(ev.at(OppositeSide.at(iO)).id())==11||abs(ev.at(OppositeSide.at(iO)).id())==1||abs(ev.at(OppositeSide.at(iO)).id())==2||abs(ev.at(OppositeSide.at(iO)).id())==3||abs(ev.at(OppositeSide.at(iO)).id())==4||abs(ev.at(OppositeSide.at(iO)).id())==5||abs(ev.at(OppositeSide.at(iO)).id())==21){
+                                                           WhetherThreeMuonOSeOrHadron = true;
+                                                           if(abs(ev.at(OppositeSide.at(iO)).id())==15||abs(ev.at(OppositeSide.at(iO)).id())==1||abs(ev.at(OppositeSide.at(iO)).id())==2||abs(ev.at(OppositeSide.at(iO)).id())==3||abs(ev.at(OppositeSide.at(iO)).id())==4||abs(ev.at(OppositeSide.at(iO)).id())==5||abs(ev.at(OppositeSide.at(iO)).id())==21){
+                                                                   WhetherThreeMuonOSHadron = true;
+                                                           }
+                                                   }
+                                                   else{
+                                                           WhetherThreeMuonOSmuOnly = true;
+                                                   }
                                            }
                                    }
                            }
                            }
-                           */
+                           
                            
                    }
            }
@@ -1100,10 +1127,20 @@ bool Pythia8Hadronizer::ThreeMuMassFilter( Event &ev){
   }
   }
   
+  //if((WhetherThreeMuonOSeOrHadron||WhetherThreeMuonOSmuOnly)&&!(WhetherThreeMuonOSeOrHadron)){
+  //if(WhetherThreeMuonOSeOrHadron&&!(WhetherThreeMuonOSHadron)){
+  //if(WhetherThreeMuonOSHadron){
+  
+  
   //if(WhetherTwoMuonandPionPosPass||WhetherTwoMuonandPionNegPass&&!(WhetherThreeMuonPosPass||WhetherThreeMuonNegPass)){
-  if(WhetherThreeMuonPosPass||WhetherThreeMuonNegPass){
+  //if(WhetherThreeMuonPosPass||WhetherThreeMuonNegPass){
+  //if(WhetherThreeMuonPosPass||WhetherThreeMuonNegPass&&!(WhetherThreeMuonPosPassWithOS||WhetherThreeMuonNegPassWithOS)){
+  //if(WhetherThreeMuonOSeOrHadron){
+  if((WhetherThreeMuonPosPassWithOS||WhetherThreeMuonNegPassWithOS)&&!WhetherThreeMuonOSeOrHadron){
+  
           //std::cout<<" Something passed. " <<std::endl;
           //std::cout<<" WhetherThreeMuonPosPass: "<< WhetherThreeMuonPosPass <<" , WhetherThreeMuonNegPass: "<< WhetherThreeMuonNegPass <<" , WhetherTwoMuonandPionPosPass: "<< WhetherTwoMuonandPionPosPass <<" , WhetherTwoMuonandPionNegPass: "<< WhetherTwoMuonandPionNegPass <<std::endl;
+          std::cout<<" A: "<< WhetherThreeMuonPosPass <<" , B: "<< WhetherThreeMuonNegPass <<" , C: "<< WhetherTwoMuonandPionPosPass <<" , D: "<< WhetherTwoMuonandPionNegPass <<" , OS1: "<< WhetherThreeMuonPosPassWithOS <<" , OS2: "<< WhetherThreeMuonNegPassWithOS <<" , Hadrons: "<< WhetherThreeMuonOSHadron <<" , eOrHadrons: "<< WhetherThreeMuonOSeOrHadron <<" , onlyMu: "<< WhetherThreeMuonOSmuOnly <<std::endl;
           return true;
   }
   
