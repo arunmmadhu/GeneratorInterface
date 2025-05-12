@@ -1129,14 +1129,14 @@ bool Pythia8Hadronizer::ThreeMuMassFilter( Event &ev){
   
   //if((WhetherThreeMuonOSeOrHadron||WhetherThreeMuonOSmuOnly)&&!(WhetherThreeMuonOSeOrHadron)){
   //if(WhetherThreeMuonOSeOrHadron&&!(WhetherThreeMuonOSHadron)){
-  //if(WhetherThreeMuonOSHadron){
+  if(WhetherThreeMuonOSHadron){
   
   
-  //if(WhetherTwoMuonandPionPosPass||WhetherTwoMuonandPionNegPass&&!(WhetherThreeMuonPosPass||WhetherThreeMuonNegPass)){
+  //if((WhetherTwoMuonandPionPosPass||WhetherTwoMuonandPionNegPass)&&!(WhetherThreeMuonPosPass||WhetherThreeMuonNegPass)){
   //if(WhetherThreeMuonPosPass||WhetherThreeMuonNegPass){
-  //if(WhetherThreeMuonPosPass||WhetherThreeMuonNegPass&&!(WhetherThreeMuonPosPassWithOS||WhetherThreeMuonNegPassWithOS)){
+  //if((WhetherThreeMuonPosPass||WhetherThreeMuonNegPass)&&!(WhetherThreeMuonPosPassWithOS||WhetherThreeMuonNegPassWithOS)){
   //if(WhetherThreeMuonOSeOrHadron){
-  if((WhetherThreeMuonPosPassWithOS||WhetherThreeMuonNegPassWithOS)&&!WhetherThreeMuonOSeOrHadron){
+  //if((WhetherThreeMuonPosPassWithOS||WhetherThreeMuonNegPassWithOS)&&!WhetherThreeMuonOSeOrHadron){
   
           //std::cout<<" Something passed. " <<std::endl;
           //std::cout<<" WhetherThreeMuonPosPass: "<< WhetherThreeMuonPosPass <<" , WhetherThreeMuonNegPass: "<< WhetherThreeMuonNegPass <<" , WhetherTwoMuonandPionPosPass: "<< WhetherTwoMuonandPionPosPass <<" , WhetherTwoMuonandPionNegPass: "<< WhetherTwoMuonandPionNegPass <<std::endl;
